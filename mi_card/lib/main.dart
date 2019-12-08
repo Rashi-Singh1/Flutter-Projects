@@ -151,8 +151,9 @@ class BusinessCard extends StatelessWidget {
         body: SafeArea(
             child: Container(
           width: double.maxFinite,
-          margin: EdgeInsets.only(top: 120.0),
+//          margin: EdgeInsets.only(top: 100.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               CircleAvatar(
                 backgroundImage: AssetImage('images/ProfilePicture.jpeg'),
@@ -178,52 +179,54 @@ class BusinessCard extends StatelessWidget {
               ),
               SizedBox(
                 height: 30.0,
+                width: 150.0,
+                child: Divider(
+                  color: Colors.black87,
+                ),
               ),
               Container(
                 width: 330.0,
-                color: Colors.lime.shade100,
-                padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 30.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Icon(
-                      Icons.phone,
-                      size: 23.0,
-                      color: Colors.lime.shade800,
-                    ),
-                    SizedBox(
-                      width: 20.0,
-                    ),
-                    Text(
-                      '+91-9463875091',
-                      style: TextStyle(fontSize: 18.0, letterSpacing: 1.0),
-                    )
-                  ],
+                child: Card(
+                  color: Colors.lime.shade100,
+                  //padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 30.0),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 3.0, horizontal: 25.0),
+                    child: ListTile(
+                        leading: Icon(
+                          Icons.phone,
+                          size: 23.0,
+                          color: Colors.lime.shade800,
+                        ),
+                        title: Text(
+                          '+91-9463875091',
+                          style: TextStyle(fontSize: 18.5, letterSpacing: 1.0),
+                        )),
+                  ),
                 ),
               ),
               SizedBox(
-                height: 10.0,
+                height: 5.0,
               ),
               Container(
-                color: Colors.lime.shade100,
                 width: 330.0,
-                padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 30.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Icon(
-                      Icons.email,
-                      size: 23.0,
-                      color: Colors.lime.shade800,
-                    ),
-                    SizedBox(
-                      width: 20.0,
-                    ),
-                    Text(
-                      'rashis.139m@gmail.com',
-                      style: TextStyle(fontSize: 18.0, letterSpacing: 1.0),
-                    )
-                  ],
+                child: Card(
+                  color: Colors.lime.shade100,
+//                padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 30.0),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 5.0, horizontal: 25.0),
+                    child: ListTile(
+                        leading: Icon(
+                          Icons.email,
+                          size: 23.0,
+                          color: Colors.lime.shade800,
+                        ),
+                        title: Text(
+                          'rashis.139m@gmail.com',
+                          style: TextStyle(fontSize: 16.5, letterSpacing: 1.0),
+                        )),
+                  ),
                 ),
               )
             ],
@@ -233,3 +236,43 @@ class BusinessCard extends StatelessWidget {
     );
   }
 }
+
+/*
+
+Row(
+  mainAxisSize: MainAxisSize.min,
+  children: <Widget>[
+    Icon(
+      Icons.phone,
+      size: 23.0,
+      color: Colors.lime.shade800,
+    ),
+    SizedBox(
+      width: 20.0,
+    ),
+    Text(
+      '+91-9463875091',
+      style: TextStyle(fontSize: 18.0, letterSpacing: 1.0),
+    )
+  ],
+)
+
+
+Row(
+  mainAxisSize: MainAxisSize.min,
+  children: <Widget>[
+    Icon(
+      Icons.email,
+      size: 23.0,
+      color: Colors.lime.shade800,
+    ),
+    SizedBox(
+      width: 20.0,
+    ),
+    Text(
+      'rashis.139m@gmail.com',
+      style: TextStyle(fontSize: 18.0, letterSpacing: 1.0),
+    )
+  ],
+)
+  */
