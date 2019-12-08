@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(LayoutChallenge());
+  runApp(BusinessCard());
 }
 
 //stateless widget that has the build function for hot reload to run
@@ -137,6 +137,98 @@ class LayoutChallenge extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class BusinessCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.lime[800],
+        body: SafeArea(
+            child: Container(
+          width: double.maxFinite,
+          margin: EdgeInsets.only(top: 120.0),
+          child: Column(
+            children: <Widget>[
+              CircleAvatar(
+                backgroundImage: AssetImage('images/ProfilePicture.jpeg'),
+                radius: 60.0,
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Text(
+                'Rashi Singh',
+                style: TextStyle(
+                  fontSize: 42.0,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Sacramento',
+                ),
+              ),
+              Text(
+                'Flutter Developer',
+                style: TextStyle(fontSize: 18.0, letterSpacing: 5.0
+//                    fontWeight: FontWeight.bold,
+//                    fontFamily: 'Sacramento'
+                    ),
+              ),
+              SizedBox(
+                height: 30.0,
+              ),
+              Container(
+                width: 330.0,
+                color: Colors.lime.shade100,
+                padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 30.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(
+                      Icons.phone,
+                      size: 23.0,
+                      color: Colors.lime.shade800,
+                    ),
+                    SizedBox(
+                      width: 20.0,
+                    ),
+                    Text(
+                      '+91-9463875091',
+                      style: TextStyle(fontSize: 18.0, letterSpacing: 1.0),
+                    )
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Container(
+                color: Colors.lime.shade100,
+                width: 330.0,
+                padding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 30.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(
+                      Icons.email,
+                      size: 23.0,
+                      color: Colors.lime.shade800,
+                    ),
+                    SizedBox(
+                      width: 20.0,
+                    ),
+                    Text(
+                      'rashis.139m@gmail.com',
+                      style: TextStyle(fontSize: 18.0, letterSpacing: 1.0),
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
+        )),
       ),
     );
   }
