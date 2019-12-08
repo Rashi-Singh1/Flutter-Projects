@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(LayoutChallenge());
 }
 
 //stateless widget that has the build function for hot reload to run
@@ -24,7 +24,8 @@ class MyApp extends StatelessWidget {
                   .down, //elements ka order same, but positioning neeche (if alignment not specified)
               mainAxisAlignment: MainAxisAlignment
                   .spaceEvenly, //can see various other options here
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment
+                  .start, //can make this stretch to prevent adding width for all children (to take the entire screen)
               children: <Widget>[
                 Container(
                   //made this extra container to find out if wrap content happens for child, by using max possible width for child
@@ -76,12 +77,66 @@ class MyApp extends StatelessWidget {
 //              width: double.maxFinite,
               child: Column(
                 children: <Widget>[
-                  Flexible(child: Text("Hi"))
+                  Flexible(
+                      child: Text(
+                    "Hi",
+                    style: TextStyle(
+                        color: Colors.white, backgroundColor: Colors.redAccent),
+                  )),
+                  SizedBox(height: 5.0),
+                  Container(
+                      color: Colors.black,
+                      child: Text('Bye',
+                          style: TextStyle(
+                              color: Colors.grey[800],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 40)))
                 ], //supposedly this makes text wrap the content
               ),
             )
           ],
         )),
+      ),
+    );
+  }
+}
+
+class LayoutChallenge extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.teal,
+        body: SafeArea(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Container(
+                color: Colors.red,
+                width: 100.0,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 100.0,
+                    height: 100.0,
+                    color: Colors.yellow,
+                  ),
+                  Container(
+                    width: 100.0,
+                    height: 100.0,
+                    color: Colors.green,
+                  )
+                ],
+              ),
+              Container(
+                color: Colors.blue,
+                width: 100.0,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
