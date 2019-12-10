@@ -2,6 +2,16 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(Quizzler());
 
+List<String> question = [
+  'You can lead a cow down stairs but not up stairs.',
+  'Approximately one quarter of human bones are in the feet.',
+  'A slug\'s blood is green.',
+];
+
+List<bool> answer = [false, true, true];
+
+int quesNo = 0;
+
 class Quizzler extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -25,6 +35,27 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  List<Icon> ansHistory = [];
+
+  void addIcon(bool ans) {
+    if (ans != answer[quesNo]) {
+      ansHistory.insert(
+          0,
+          Icon(
+            Icons.close,
+            color: Colors.red,
+          ));
+    } else {
+      ansHistory.insert(
+          0,
+          Icon(
+            Icons.check,
+            color: Colors.green,
+          ));
+    }
+    if (quesNo < question.length - 1) quesNo = quesNo + 1;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,7 +68,8 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question text will go.',
+//                'This is where the question text will go.',
+                question[quesNo],
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -61,6 +93,9 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                setState(() {
+                  addIcon(true);
+                });
                 //The user picked true.
               },
             ),
@@ -79,12 +114,30 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                setState(() {
+                  addIcon(false);
+                });
                 //The user picked false.
               },
             ),
           ),
         ),
         //TODO: Add a Row here as your score keeper
+//        Expanded(
+//          child: Row(
+//            children: ansHistory,
+//          ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: new Row(children: ansHistory),
+          controller: ScrollController(
+            keepScrollOffset: true,
+            initialScrollOffset: 0.0,
+          ),
+        ),
+        SizedBox(
+          height: 10.0,
+        )
       ],
     );
   }
