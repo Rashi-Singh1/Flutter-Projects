@@ -20,96 +20,39 @@ class PackageEx extends StatelessWidget {
 }
 
 class XylophoneApp extends StatelessWidget {
+  void play(int i) {
+    final AudioCache player = AudioCache();
+    player.play('note$i.wav');
+  }
+
+  Expanded buildKey(int num, Color color) {
+    return Expanded(
+      child: FlatButton(
+        padding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 5.0),
+        onPressed: () {
+          play(num);
+        },
+        child: Container(
+          color: color,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.black38,
         body: Column(
           children: <Widget>[
-            Expanded(
-              child: FlatButton(
-                padding: EdgeInsets.all(0.0),
-                onPressed: () {
-                  final AudioCache player = AudioCache();
-                  player.play('note1.wav');
-                },
-                child: Container(
-                  color: Colors.red,
-                ),
-              ),
-            ),
-            Expanded(
-              child: FlatButton(
-                padding: EdgeInsets.all(0.0),
-                onPressed: () {
-                  final AudioCache player = AudioCache();
-                  player.play('note2.wav');
-                },
-                child: Container(
-                  color: Colors.orange,
-                ),
-              ),
-            ),
-            Expanded(
-              child: FlatButton(
-                padding: EdgeInsets.all(0.0),
-                onPressed: () {
-                  final AudioCache player = AudioCache();
-                  player.play('note3.wav');
-                },
-                child: Container(
-                  color: Colors.yellow,
-                ),
-              ),
-            ),
-            Expanded(
-              child: FlatButton(
-                padding: EdgeInsets.all(0.0),
-                onPressed: () {
-                  final AudioCache player = AudioCache();
-                  player.play('note4.wav');
-                },
-                child: Container(
-                  color: Colors.green,
-                ),
-              ),
-            ),
-            Expanded(
-              child: FlatButton(
-                padding: EdgeInsets.all(0.0),
-                onPressed: () {
-                  final AudioCache player = AudioCache();
-                  player.play('note5.wav');
-                },
-                child: Container(
-                  color: Colors.blue,
-                ),
-              ),
-            ),
-            Expanded(
-              child: FlatButton(
-                padding: EdgeInsets.all(0.0),
-                onPressed: () {
-                  final AudioCache player = AudioCache();
-                  player.play('note6.wav');
-                },
-                child: Container(
-                  color: Colors.indigo,
-                ),
-              ),
-            ),
-            Expanded(
-              child: FlatButton(
-                padding: EdgeInsets.all(0.0),
-                onPressed: () {
-                  final AudioCache player = AudioCache();
-                  player.play('note7.wav');
-                },
-                child: Container(
-                  color: Colors.purple,
-                ),
-              ),
-            ),
+            buildKey(1, Colors.red),
+            buildKey(2, Colors.orange),
+            buildKey(3, Colors.yellow),
+            buildKey(4, Colors.green),
+            buildKey(5, Colors.teal),
+            buildKey(6, Colors.blue),
+            buildKey(7, Colors.deepPurpleAccent),
           ],
         ),
       ),
