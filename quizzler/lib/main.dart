@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:quizzler/QuizBrain.dart';
 
 void main() => runApp(Quizzler());
 
-List<String> question = [
-  'You can lead a cow down stairs but not up stairs.',
-  'Approximately one quarter of human bones are in the feet.',
-  'A slug\'s blood is green.',
-];
-
-List<bool> answer = [false, true, true];
-
-int quesNo = 0;
+QuizBrain quizBrain = new QuizBrain();
 
 class Quizzler extends StatelessWidget {
   @override
@@ -38,7 +31,8 @@ class _QuizPageState extends State<QuizPage> {
   List<Icon> ansHistory = [];
 
   void addIcon(bool ans) {
-    if (ans != answer[quesNo]) {
+    if (ans != quizBrain.getCurrentAns()) {
+      print('User got it wrong');
       ansHistory.insert(
           0,
           Icon(
@@ -46,6 +40,7 @@ class _QuizPageState extends State<QuizPage> {
             color: Colors.red,
           ));
     } else {
+      print('User got it right');
       ansHistory.insert(
           0,
           Icon(
@@ -53,7 +48,7 @@ class _QuizPageState extends State<QuizPage> {
             color: Colors.green,
           ));
     }
-    if (quesNo < question.length - 1) quesNo = quesNo + 1;
+    if (quizBrain.currentQues < quizBrain.totalQues - 1) quizBrain.incQues();
   }
 
   @override
@@ -69,7 +64,7 @@ class _QuizPageState extends State<QuizPage> {
             child: Center(
               child: Text(
 //                'This is where the question text will go.',
-                question[quesNo],
+                quizBrain.getCurrentQues(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -122,11 +117,6 @@ class _QuizPageState extends State<QuizPage> {
             ),
           ),
         ),
-        //TODO: Add a Row here as your score keeper
-//        Expanded(
-//          child: Row(
-//            children: ansHistory,
-//          ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: new Row(children: ansHistory),
