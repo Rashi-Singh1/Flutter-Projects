@@ -37,15 +37,20 @@ class QuizBrain {
         true),
   ];
 
-  int totalQues;
-  int currentQues;
+  //made these private so that main.dart can't accidently change it and crash the app
+  int _totalQues;
+  int _currentQues;
 
   QuizBrain() {
-    this.totalQues = _question.length;
-    this.currentQues = 0;
+    this._totalQues = _question.length;
+    this._currentQues = 0;
   }
 
-  String getCurrentQues() => this._question[currentQues].question;
-  bool getCurrentAns() => this._question[currentQues].answer;
-  void incQues() => currentQues = currentQues + 1;
+  String getCurrentQues() => this._question[_currentQues].question;
+  bool getCurrentAns() => this._question[_currentQues].answer;
+
+  void nextQues() {
+    if (this._currentQues < this._totalQues - 1)
+      _currentQues = _currentQues + 1;
+  }
 }

@@ -48,7 +48,7 @@ class _QuizPageState extends State<QuizPage> {
             color: Colors.green,
           ));
     }
-    if (quizBrain.currentQues < quizBrain.totalQues - 1) quizBrain.incQues();
+    quizBrain.nextQues();
   }
 
   @override
