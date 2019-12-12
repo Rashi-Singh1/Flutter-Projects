@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizzler/QuizBrain.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 void main() => runApp(Quizzler());
 
@@ -49,6 +50,29 @@ class _QuizPageState extends State<QuizPage> {
           ));
     }
     quizBrain.nextQues();
+    if (quizBrain.getFinished() == true) {
+      Alert(
+        context: context,
+        type: AlertType.error,
+        title: "CONGRATULATIONS",
+        desc: "The quiz has ended",
+        buttons: [
+          DialogButton(
+              width: 120,
+              child: Text(
+                "COOL",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                setState(() {
+                  quizBrain.refresh();
+                  ansHistory.clear();
+                });
+              })
+        ],
+      ).show();
+    }
   }
 
   @override
@@ -88,6 +112,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                //can simply call addIcon and put setState out of build as well (around the code to change question and addicon)
                 setState(() {
                   addIcon(true);
                 });
@@ -109,6 +134,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
+                //can simply call addIcon and put setState out of build as well (around the code to change question and addicon)
                 setState(() {
                   addIcon(false);
                 });

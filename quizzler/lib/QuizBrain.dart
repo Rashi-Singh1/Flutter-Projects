@@ -40,17 +40,28 @@ class QuizBrain {
   //made these private so that main.dart can't accidently change it and crash the app
   int _totalQues;
   int _currentQues;
+  bool finished;
 
   QuizBrain() {
     this._totalQues = _question.length;
     this._currentQues = 0;
+    this.finished = false;
   }
 
   String getCurrentQues() => this._question[_currentQues].question;
   bool getCurrentAns() => this._question[_currentQues].answer;
+  bool getFinished() => this.finished;
+
+  void refresh() {
+    this._currentQues = 0;
+    this.finished = false;
+  }
 
   void nextQues() {
     if (this._currentQues < this._totalQues - 1)
       _currentQues = _currentQues + 1;
+    else {
+      this.finished = true;
+    }
   }
 }

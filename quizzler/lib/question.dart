@@ -2,10 +2,10 @@ class Ques {
   String question;
   bool answer;
 
-  Ques(String question, bool answer) {
-    this.question = question;
-    this.answer = answer;
-  }
+  Ques(this.question, this.answer);
+
+//the above constructor can simply be written as below, the only diff is the way of invoking this
+//  Ques({this.question, this.answer});
 
   String getQuestion() {
     return this.question;
