@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 
-const double bottomContainerHeight = 40.0;
-const Color innerContainerColor = Color(0xFF1D1E33);
-const Color bottomContainerColor = Color(0xFFEB1555);
-const Color innerContainerTextColor = Color(0xFF8D8E98);
-
 class ReusableCard extends StatelessWidget {
 //  const ReusableContainer({
 //    Key key,
