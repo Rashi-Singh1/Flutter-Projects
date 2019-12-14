@@ -1,3 +1,4 @@
+import 'package:bmi_calculator/incrementor_card.dart';
 import 'package:bmi_calculator/reusable_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -17,6 +18,8 @@ class _InputPageState extends State<InputPage> {
   GenderType gender;
   double fSliderHeight = 180.0;
   int iSliderHeight = 180;
+  int weight = 60;
+  int age = 24;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +31,7 @@ class _InputPageState extends State<InputPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
+          //top row
           Expanded(
             child: Row(
               children: <Widget>[
@@ -69,6 +73,8 @@ class _InputPageState extends State<InputPage> {
               ],
             ),
           ),
+
+          //slider
           Expanded(
             child: ReusableCard(
               colour: kActiveCardColor,
@@ -82,57 +88,66 @@ class _InputPageState extends State<InputPage> {
                   SizedBox(
                     height: 5.0,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    textBaseline: TextBaseline.alphabetic,
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    children: <Widget>[
-                      Text(
-                        iSliderHeight.toString(),
-                        style: kHeavyTextStyle,
-                      ),
-                      Text(
-                        'cm',
-                        style: kLabelTextStyle,
-                      ),
-                    ],
+                  ReusableRow(
+                    mainThing: iSliderHeight,
+                    unit: 'cm',
                   ),
-                  SliderTheme(
-                    data: SliderTheme.of(context).copyWith(
-                        thumbColor: kBottomContainerColor,
-                        inactiveTrackColor: kCardTextColor,
-                        overlayColor: Color(0x29EB1555),
-                        activeTrackColor: Colors.white,
-                        overlayShape:
-                            RoundSliderOverlayShape(overlayRadius: 20.0),
-                        thumbShape:
-                            RoundSliderThumbShape(enabledThumbRadius: 10.0)),
-                    child: Slider(
-                      value: iSliderHeight.toDouble(),
-                      min: kMinHeight,
-                      max: kMaxHeight,
-                      onChanged: (double newValue) {
-                        print(newValue);
-                        setState(() {
+                  Slider(
+                    //added its theme in main.dart to make it common for all sliders
+                    value: iSliderHeight.toDouble(),
+                    min: kMinHeight,
+                    max: kMaxHeight,
+                    onChanged: (double newValue) {
+                      print(newValue);
+                      setState(() {
 //                        sliderheight = newValue.toStringAsFixed(2); //to truncate but gives string
 //                        sliderheight = (newValue * 100).round() / 100;  //to get upto 2 decimal precision height
-                          iSliderHeight = newValue.round();
-                        });
-                      },
-                    ),
+                        iSliderHeight = newValue.round();
+                      });
+                    },
                   )
                 ],
               ),
             ),
           ),
+
+          //bottom row
           Expanded(
             child: Row(
               children: <Widget>[
                 Expanded(
-                  child: ReusableCard(colour: kActiveCardColor),
+                  child: IncrementorCard(
+                    titleText: 'WEIGHT',
+                    unit: 'kg',
+                    mainThing: weight,
+                    lessFunction: () {
+                      setState(() {
+                        weight--;
+                      });
+                    },
+                    moreFunction: () {
+                      setState(() {
+                        weight++;
+                      });
+                    },
+                  ),
                 ),
                 Expanded(
-                  child: ReusableCard(colour: kActiveCardColor),
+                  child: IncrementorCard(
+                    titleText: 'AGE',
+                    unit: 'yrs',
+                    mainThing: age,
+                    lessFunction: () {
+                      setState(() {
+                        age--;
+                      });
+                    },
+                    moreFunction: () {
+                      setState(() {
+                        age++;
+                      });
+                    },
+                  ),
                 ),
               ],
             ),
