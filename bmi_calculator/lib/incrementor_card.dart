@@ -1,4 +1,5 @@
 import 'package:bmi_calculator/reusable_card.dart';
+import 'package:bmi_calculator/reusable_row.dart';
 import 'package:bmi_calculator/round_icon_button.dart';
 import 'package:flutter/material.dart';
 
@@ -51,30 +52,6 @@ class IncrementorCard extends StatelessWidget {
           )
         ],
       ),
-    );
-  }
-}
-
-class ReusableRow extends StatelessWidget {
-  final int mainThing;
-  final String unit;
-  ReusableRow({this.mainThing, this.unit});
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.alphabetic,
-      children: <Widget>[
-        Text(
-          mainThing.toString(),
-          style: kHeavyTextStyle,
-        ),
-        Text(
-          unit,
-          style: kLabelTextStyle,
-        )
-      ],
     );
   }
 }
