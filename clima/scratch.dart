@@ -14,8 +14,14 @@ void task1() {
 }
 
 void task2() {
-  String result = 'task 2 data';
-  print('Task 2 complete');
+  Duration threeseconds = Duration(seconds: 3);
+//  sleep(threeseconds);
+  Future.delayed(threeseconds, () {
+    //this is an async function that can run in background and the function inside it will run after the said task is complete
+    //this is basically a function that occurs after the given duration (creates a future)
+    String result = 'task 2 data';
+    print('Task 2 complete');
+  });
 }
 
 void task3() {
