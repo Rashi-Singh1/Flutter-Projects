@@ -1,9 +1,9 @@
-import 'package:bmi_calculator/reusable_card.dart';
-import 'package:bmi_calculator/reusable_row.dart';
-import 'package:bmi_calculator/round_icon_button.dart';
+import 'package:bmi_calculator/components/reusable_card.dart';
+import 'package:bmi_calculator/components/reusable_row.dart';
+import 'package:bmi_calculator/components/round_icon_button.dart';
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
+import '../constants.dart';
 
 class IncrementorCard extends StatelessWidget {
   final String titleText;

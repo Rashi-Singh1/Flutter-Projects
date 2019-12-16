@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 //convention to start constants with k for easier search
-const double kBottomContainerHeight = 40.0;
+const double kBottomContainerHeight = 45.0;
 const double kMinHeight = 50.0;
 const double kMaxHeight = 250.0;
 
@@ -17,4 +17,9 @@ const TextStyle kLabelTextStyle = TextStyle(
 const TextStyle kHeavyTextStyle = TextStyle(
   fontSize: 50.0,
   fontWeight: FontWeight.w900,
+);
+
+const TextStyle kLargeButtonTextStyle = TextStyle(
+  fontSize: 20.0,
+//  fontWeight: FontWeight.bold,
 );
