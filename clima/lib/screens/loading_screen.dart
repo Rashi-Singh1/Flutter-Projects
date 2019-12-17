@@ -1,5 +1,5 @@
+import 'package:clima/services/location.dart';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -7,29 +7,18 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-  void getLocation() async {
-    //added async so that this time consuming n unpredictable time function can happen in the background
-
-    try {
-      Position position = await Geolocator().getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.low); //sufficient to get weather
-      print(
-          position); //due to await, position is printed after it is populated with the right value
-    } catch (e) {
-      print(e);
-    }
-  }
-
   //example to show what causes exceptions
   void somethingThatExpectsLessThan10(int num) {
     if (num >= 10) throw 'num should always be less than 10';
   }
 
+  Location location = new Location();
+
   @override
   void initState() {
     //only called once when the stful widget is added to the tree, for stless, sirf build hai, no init
     super.initState();
-    getLocation();
+    location.getCurrentLocation();
   }
 
   @override
