@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
+import 'package:flutter/material.dart';
 
 class LocationScreen extends StatefulWidget {
   @override
@@ -9,8 +9,21 @@ class LocationScreen extends StatefulWidget {
 class _LocationScreenState extends State<LocationScreen> {
   @override
   Widget build(BuildContext context) {
+    String myMargin = '15';
+    double myMarginAsDouble;
+
+    try {
+      myMarginAsDouble = double.parse(myMargin);
+    } catch (e) {
+      print(e);
+//      myMarginAsDouble = someValue;
+//      i.e like this can add alternate code to be run once te exception occurs
+    }
+
     return Scaffold(
       body: Container(
+        margin: EdgeInsets.all(myMarginAsDouble ?? 30.0),
+        //this signifies that if value of myMarginAsDouble is not null, then use that ow use 30
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('images/location_background.jpg'),

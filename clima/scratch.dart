@@ -4,7 +4,7 @@ void main() {
 
 void performTasks() async {
   task1();
-  String cur = await task2();
+  String cur = await task2(); //here also, await this task, then go fwd
   task3(cur);
   task4();
 }
@@ -25,7 +25,7 @@ Future task2() async {
     print('Task 2 complete');
   });
 
-  return result;
+  return result; //this is returned after await, if we only had future, then this stmt would've occured before result would've been calculated
 }
 
 void task3(String task2Data) {
