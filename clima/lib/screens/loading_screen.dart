@@ -1,10 +1,7 @@
 import 'package:clima/screens/location_screen.dart';
-import 'package:clima/services/location.dart';
-import 'package:clima/services/networking.dart';
+import 'package:clima/services/weather.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
-const apiKey = '0643e08a3ebc462dc41d21e6f8a64894';
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -17,8 +14,6 @@ class _LoadingScreenState extends State<LoadingScreen> {
     if (num >= 10) throw 'num should always be less than 10';
   }
 
-  Location location = new Location();
-
   @override
   void initState() {
     //only called once when the stful widget is added to the tree, for stless, sirf build hai, no init
@@ -27,15 +22,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
 
   Future getLocationData() async {
-    await location.getCurrentLocation();
-    print('latitude : ${location.latitude}');
-    print('longitude : ${location.longitude}');
-    NetworkHelper networkHelper = NetworkHelper(
-        'https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=$apiKey&units=metric');
-    var decodedData = await networkHelper.getData();
-
+    var weatherData = await WeatherModel().getLocationWeather();
+    print('weather ; $weatherData');
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return LocationScreen(decodedData);
+      return LocationScreen(weatherData);
     }));
   }
 
