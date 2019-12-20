@@ -13,11 +13,39 @@ class WelcomeScreen extends StatefulWidget {
   _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen>
+    with SingleTickerProviderStateMixin {
+  //we can associate a class with various properties using 'with', for ex : it is acting as a tickerProvider in this case
+
+  AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //initialize AnimationController controller in initState
+    controller = new AnimationController(
+      duration: Duration(seconds: 1),
+      vsync: this,
+    );
+
+    //takes animation forward (starts it from animation value, by default the minValue)
+    controller.forward();
+
+    //to listen to the animation value, as it updates
+    controller.addListener(() {
+      //need to add this setState, so that if we are using the controller value to change some property, build is called again
+      setState(() {});
+
+      //by default the value range is 0-1
+      print(controller.value);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.white.withOpacity(controller.value),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
