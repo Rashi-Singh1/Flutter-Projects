@@ -26,9 +26,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                Container(
-                  child: Image.asset('images/logo.png'),
-                  height: 60.0,
+                Hero(
+                  //the tag should be same for the corresponding Hero in the next screen
+                  tag: 'logo',
+                  child: Container(
+                    //this is the shared image with the next screen, so use hero animation
+                    child: Image.asset('images/logo.png'),
+                    height: 60.0,
+                  ),
                 ),
                 Text(
                   'Flash Chat',
