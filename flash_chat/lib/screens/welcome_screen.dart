@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:flash_chat/screens/login_screen.dart';
 import 'package:flash_chat/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
@@ -34,23 +32,15 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     );
 
     //IMP: upperbound for curved animations must be 1
-    animation =
-        CurvedAnimation(parent: controller, curve: Curves.easeInOutQuart);
+    animation = ColorTween(begin: Colors.blueGrey, end: Colors.white)
+        .animate(controller);
+    //similarly can have diff types of tweens like BorderRadiusTween, AlignmentTween, ConstantTween etc
 
     //takes animation forward (starts it from animation value, by default the minValue)
     controller.forward();
 
     //can use reverse to use reverse of animation
     //controller.reverse(from: 1.0);
-
-    animation.addStatusListener((status) {
-      print(status);
-      //status is 'completed' when using controller.forward
-      //status is 'dismissed' when using controller.reverse
-      if (status == AnimationStatus.completed)
-        controller.reverse(from: 1);
-      else if (status == AnimationStatus.dismissed) controller.forward(from: 0);
-    });
 
     //to listen to the animation value, as it updates
     controller.addListener(() {
@@ -73,7 +63,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: animation.value,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -85,13 +75,10 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 Hero(
                   //the tag should be same for the corresponding Hero in the next screen
                   tag: 'logo',
-                  child: Transform.rotate(
-                    angle: -math.pi * animation.value,
-                    child: Container(
-                      //this is the shared image with the next screen, so use hero animation
-                      child: Image.asset('images/logo.png'),
-                      height: 60.0 * animation.value,
-                    ),
+                  child: Container(
+                    //this is the shared image with the next screen, so use hero animation
+                    child: Image.asset('images/logo.png'),
+                    height: 60.0,
                   ),
                 ),
                 Text(
