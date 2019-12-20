@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flash_chat/screens/login_screen.dart';
 import 'package:flash_chat/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   //we can associate a class with various properties using 'with', for ex : it is acting as a tickerProvider in this case
 
   AnimationController controller;
+  Animation animation;
+  //till now the value of the controller.value was approx linear, animation would be a layer over this controller to use CurvedAnimation
 
   @override
   void initState() {
@@ -27,11 +31,26 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     controller = new AnimationController(
       duration: Duration(seconds: 1),
       vsync: this,
-      upperBound: 100.0, //for the controller.value
     );
+
+    //IMP: upperbound for curved animations must be 1
+    animation =
+        CurvedAnimation(parent: controller, curve: Curves.easeInOutQuart);
 
     //takes animation forward (starts it from animation value, by default the minValue)
     controller.forward();
+
+    //can use reverse to use reverse of animation
+    //controller.reverse(from: 1.0);
+
+    animation.addStatusListener((status) {
+      print(status);
+      //status is 'completed' when using controller.forward
+      //status is 'dismissed' when using controller.reverse
+      if (status == AnimationStatus.completed)
+        controller.reverse(from: 1);
+      else if (status == AnimationStatus.dismissed) controller.forward(from: 0);
+    });
 
     //to listen to the animation value, as it updates
     controller.addListener(() {
@@ -39,8 +58,16 @@ class _WelcomeScreenState extends State<WelcomeScreen>
       setState(() {});
 
       //by default the value range is 0-1
-      print(controller.value);
+      //now use animation.value not controller.value
+      print(animation.value);
     });
+  }
+
+  @override
+  void dispose() {
+    //controller stays in mem if not disposed, hogging the resources
+    controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -58,14 +85,17 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                 Hero(
                   //the tag should be same for the corresponding Hero in the next screen
                   tag: 'logo',
-                  child: Container(
-                    //this is the shared image with the next screen, so use hero animation
-                    child: Image.asset('images/logo.png'),
-                    height: controller.value,
+                  child: Transform.rotate(
+                    angle: -math.pi * animation.value,
+                    child: Container(
+                      //this is the shared image with the next screen, so use hero animation
+                      child: Image.asset('images/logo.png'),
+                      height: 60.0 * animation.value,
+                    ),
                   ),
                 ),
                 Text(
-                  '${controller.value.toInt()}%',
+                  'Flash Chat',
                   style: TextStyle(
                     fontSize: 45.0,
                     fontWeight: FontWeight.w900,
