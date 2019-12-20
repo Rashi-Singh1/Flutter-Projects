@@ -15,13 +15,14 @@ class FlashChat extends StatelessWidget {
           body1: TextStyle(color: Colors.black54),
         ),
       ),
-      initialRoute:
-          WelcomeScreen().id, //need to create this object first to access id
+      initialRoute: WelcomeScreen
+          .id, //after adding static keyword, can directly access id
       routes: {
-        WelcomeScreen().id: (context) => WelcomeScreen(),
-        '/login': (context) => LoginScreen(),
-        '/reg': (context) => RegistrationScreen(),
-        '/chat': (context) => ChatScreen(),
+        //not using strings as keys, bcs android studio doesn't give warnings if string becomes wrong (for later use)
+        WelcomeScreen.id: (context) => WelcomeScreen(),
+        LoginScreen.id: (context) => LoginScreen(),
+        RegistrationScreen.id: (context) => RegistrationScreen(),
+        ChatScreen.id: (context) => ChatScreen(),
       },
     );
   }

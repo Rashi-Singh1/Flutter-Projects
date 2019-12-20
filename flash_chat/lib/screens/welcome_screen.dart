@@ -1,7 +1,13 @@
+import 'package:flash_chat/screens/login_screen.dart';
+import 'package:flash_chat/screens/registration_screen.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  String id = 'welcome_screen';
+  static String id = 'welcome_screen';
+  //adding the word static makes it a class-wide variable, so that we won't have to make an object instance to see its value
+  //therefore, now can directly use it as WelcomeScreen.id (poori class ki id)
+  //also, if we want some entity to be const, it must have static modifier in front of it, as const entity must be affiliated to class and not objects (bcs otherwise to object pe dependent, hence variable hoga)
+  //Functions can be static too in a similar way, to use function without needing the object later (for class wide functions)
 
   @override
   _WelcomeScreenState createState() => _WelcomeScreenState();
@@ -45,7 +51,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: MaterialButton(
                   onPressed: () {
                     //Go to login screen.
-                    Navigator.pushNamed(context, 'login_screen');
+                    Navigator.pushNamed(context, LoginScreen.id);
                   },
                   minWidth: 200.0,
                   height: 42.0,
@@ -64,7 +70,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: MaterialButton(
                   onPressed: () {
                     //Go to registration screen.
-                    Navigator.pushNamed(context, 'reg_screen');
+                    Navigator.pushNamed(context, RegistrationScreen.id);
                   },
                   minWidth: 200.0,
                   height: 42.0,
