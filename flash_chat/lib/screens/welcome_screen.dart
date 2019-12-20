@@ -27,6 +27,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     controller = new AnimationController(
       duration: Duration(seconds: 1),
       vsync: this,
+      upperBound: 100.0, //for the controller.value
     );
 
     //takes animation forward (starts it from animation value, by default the minValue)
@@ -45,7 +46,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white.withOpacity(controller.value),
+      backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
@@ -60,11 +61,11 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   child: Container(
                     //this is the shared image with the next screen, so use hero animation
                     child: Image.asset('images/logo.png'),
-                    height: 60.0,
+                    height: controller.value,
                   ),
                 ),
                 Text(
-                  'Flash Chat',
+                  '${controller.value.toInt()}%',
                   style: TextStyle(
                     fontSize: 45.0,
                     fontWeight: FontWeight.w900,
