@@ -4,16 +4,26 @@ class CustomizedTextField extends StatelessWidget {
   final String hintText;
   final Color colour;
   final Function onChanged;
+  final bool obscured;
+  final TextInputType keyboardType;
 
   CustomizedTextField(
       {@required this.colour,
       @required this.hintText,
-      @required this.onChanged});
+      @required this.onChanged,
+      this.obscured,
+      this.keyboardType});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      textAlign: TextAlign.center,
+      keyboardType: this.keyboardType,
       onChanged: this.onChanged,
+      obscureText: this.obscured != null ? obscured : false,
+      style: TextStyle(
+        color: Colors.black,
+      ),
       decoration: InputDecoration(
         hintText: this.hintText,
         hintStyle: TextStyle(
