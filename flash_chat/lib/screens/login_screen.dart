@@ -27,74 +27,74 @@ class _LoginScreenState extends State<LoginScreen> {
         inAsyncCall: _showSpinner,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(
-                  height: 75.0,
-                ),
-                Hero(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(
+                height: 35.0,
+              ),
+              Flexible(
+                //this means that it should try to take up the specified space. however if space ain't available, then shrink accordingly
+                child: Hero(
                   tag: 'logo',
                   child: Container(
                     height: 200.0,
                     child: Image.asset('images/logo.png'),
                   ),
                 ),
-                SizedBox(
-                  height: 48.0,
-                ),
-                CustomizedTextField(
-                  colour: Colors.lightBlueAccent,
-                  hintText: 'Enter your Email',
-                  onChanged: (value) {
-                    email = value;
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                SizedBox(
-                  height: 8.0,
-                ),
-                CustomizedTextField(
-                  colour: Colors.lightBlueAccent,
-                  hintText: 'Enter your password',
-                  onChanged: (value) {
-                    password = value;
-                  },
-                  obscured: true,
-                ),
-                SizedBox(
-                  height: 24.0,
-                ),
-                CustomizedButton(
-                  text: 'Log In',
-                  colour:
-                      _enableButton ? Colors.lightBlueAccent : Colors.blueGrey,
-                  onPressed: () async {
-                    setState(() {
-                      _showSpinner = true;
-                    });
-                    if (_enableButton == true) {
-                      _enableButton = false;
-                      try {
-                        final user = await _auth.signInWithEmailAndPassword(
-                            email: email, password: password);
-                        if (user != null)
-                          Navigator.pushNamed(context, ChatScreen.id);
-                      } catch (e) {
-                        print(e);
-                      }
-                      _enableButton = true;
+              ),
+              SizedBox(
+                height: 48.0,
+              ),
+              CustomizedTextField(
+                colour: Colors.lightBlueAccent,
+                hintText: 'Enter your Email',
+                onChanged: (value) {
+                  email = value;
+                },
+                keyboardType: TextInputType.emailAddress,
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              CustomizedTextField(
+                colour: Colors.lightBlueAccent,
+                hintText: 'Enter your password',
+                onChanged: (value) {
+                  password = value;
+                },
+                obscured: true,
+              ),
+              SizedBox(
+                height: 24.0,
+              ),
+              CustomizedButton(
+                text: 'Log In',
+                colour:
+                    _enableButton ? Colors.lightBlueAccent : Colors.blueGrey,
+                onPressed: () async {
+                  setState(() {
+                    _showSpinner = true;
+                  });
+                  if (_enableButton == true) {
+                    _enableButton = false;
+                    try {
+                      final user = await _auth.signInWithEmailAndPassword(
+                          email: email, password: password);
+                      if (user != null)
+                        Navigator.pushNamed(context, ChatScreen.id);
+                    } catch (e) {
+                      print(e);
                     }
-                    setState(() {
-                      _showSpinner = false;
-                    });
-                  },
-                ),
-              ],
-            ),
+                    _enableButton = true;
+                  }
+                  setState(() {
+                    _showSpinner = false;
+                  });
+                },
+              ),
+            ],
           ),
         ),
       ),

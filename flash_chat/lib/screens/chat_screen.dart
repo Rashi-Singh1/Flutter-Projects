@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/Utilities/constants.dart';
-import 'package:flash_chat/Utilities/messageStream.dart';
+import 'package:flash_chat/Utilities/messageBubble.dart';
 import 'package:flutter/material.dart';
+
+FirebaseUser loggedInUser;
 
 class ChatScreen extends StatefulWidget {
   static String id = 'chat_screen';
@@ -16,7 +18,6 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final _auth = FirebaseAuth.instance;
   final _firestore = Firestore.instance;
-  FirebaseUser loggedInUser;
   String messageText;
   bool empty = true;
 
@@ -86,13 +87,10 @@ class _ChatScreenState extends State<ChatScreen> {
 
   Widget getInitialTextWidget() {
     if (empty) {
-      return Text(
-        'Send your first message',
-        style: TextStyle(
-          fontSize: 25.0,
-          color: Colors.grey,
-        ),
-      );
+      return MessageBubble(
+          messageText: 'Send your first message',
+          messageSender: '',
+          isMe: true);
     } else {
       return Container(
         height: 0,
@@ -150,6 +148,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       _firestore.collection('messages').add({
                         'text': messageText,
                         'sender': loggedInUser.email,
+                        'time': DateTime.now().millisecondsSinceEpoch,
                       });
                     },
                     child: Text(
@@ -163,6 +162,55 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
       ),
+    );
+  }
+}
+
+class MessageStream extends StatelessWidget {
+  final Firestore _firestore;
+
+  MessageStream({@required Firestore firestore}) : _firestore = firestore;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      //if the data type jiski stream hai is not specified, it considers it dynamic
+
+      stream: _firestore.collection('messages').snapshots(),
+      builder: (context, asyncSnapshot) {
+        //this asyncSnapshot (from flutter) is diff from collection ka snapshot
+        //however, it contains the collection vala snapshot
+
+        if (asyncSnapshot.hasData) {
+          //this gives list of documents in a collection
+          //need to reverse bcs the listView shows the reverse order ( last element ( newest msg ) in list at top )
+          final messages = asyncSnapshot.data.documents;
+          messages.sort((a, b) => b.data['time'].compareTo(a.data['time']));
+          List<MessageBubble> messageWidgets = new List();
+          for (var message in messages) {
+            final messageText = message.data['text'];
+            final messageSender = message.data['sender'];
+            messageWidgets.add(MessageBubble(
+              messageText: messageText,
+              messageSender: messageSender,
+              isMe: messageSender == loggedInUser.email,
+            ));
+          }
+          //wrapping listView (scrollable column) allows it to take only as much space as available
+          return Expanded(
+            child: ListView(
+              reverse: true,
+              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 20.0),
+              children: messageWidgets,
+            ),
+          );
+        } else {
+          return Container(
+            height: 0.0,
+            width: 0.0,
+          );
+        }
+      },
     );
   }
 }

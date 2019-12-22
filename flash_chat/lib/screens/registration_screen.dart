@@ -28,79 +28,79 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
         inAsyncCall: _showSpinner,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.0),
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(
-                  height: 75.0,
-                ),
-                Hero(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              SizedBox(
+                height: 35.0,
+              ),
+              Flexible(
+                //this means that it should try to take up the specified space. however if space ain't available, then shrink accordingly
+                child: Hero(
                   tag: 'logo',
                   child: Container(
                     height: 200.0,
                     child: Image.asset('images/logo.png'),
                   ),
                 ),
-                SizedBox(
-                  height: 48.0,
-                ),
-                CustomizedTextField(
-                  colour: Colors.blueAccent,
-                  hintText: 'Enter your email',
-                  onChanged: (value) {
-                    email = value;
-                  },
-                  keyboardType: TextInputType.emailAddress,
-                ),
-                SizedBox(
-                  height: 8.0,
-                ),
-                CustomizedTextField(
-                  colour: Colors.blueAccent,
-                  hintText: 'Enter your password',
-                  onChanged: (value) {
-                    password = value;
-                  },
-                  obscured: true,
-                ),
-                SizedBox(
-                  height: 24.0,
-                ),
-                CustomizedButton(
-                  text: 'Register',
-                  colour: _buttonDisabled == false
-                      ? Colors.blueAccent
-                      : Colors.blueGrey,
-                  onPressed: () async {
-                    setState(() {
-                      _showSpinner = true;
-                    });
-                    if (_buttonDisabled == false) {
-                      _buttonDisabled = true;
-                      try {
-                        final newUser =
-                            await _auth.createUserWithEmailAndPassword(
-                          email: email,
-                          password: password,
-                        );
-                        if (newUser != null) {
-                          Navigator.pushNamed(context, ChatScreen.id);
-                        }
-                      } catch (e) {
-                        print(e);
+              ),
+              SizedBox(
+                height: 48.0,
+              ),
+              CustomizedTextField(
+                colour: Colors.blueAccent,
+                hintText: 'Enter your email',
+                onChanged: (value) {
+                  email = value;
+                },
+                keyboardType: TextInputType.emailAddress,
+              ),
+              SizedBox(
+                height: 8.0,
+              ),
+              CustomizedTextField(
+                colour: Colors.blueAccent,
+                hintText: 'Enter your password',
+                onChanged: (value) {
+                  password = value;
+                },
+                obscured: true,
+              ),
+              SizedBox(
+                height: 24.0,
+              ),
+              CustomizedButton(
+                text: 'Register',
+                colour: _buttonDisabled == false
+                    ? Colors.blueAccent
+                    : Colors.blueGrey,
+                onPressed: () async {
+                  setState(() {
+                    _showSpinner = true;
+                  });
+                  if (_buttonDisabled == false) {
+                    _buttonDisabled = true;
+                    try {
+                      final newUser =
+                          await _auth.createUserWithEmailAndPassword(
+                        email: email,
+                        password: password,
+                      );
+                      if (newUser != null) {
+                        Navigator.pushNamed(context, ChatScreen.id);
                       }
-                      setState(() {
-                        _showSpinner = false;
-                      });
-                      _buttonDisabled = true;
+                    } catch (e) {
+                      print(e);
                     }
-                  },
-                ),
-              ],
-            ),
+                    setState(() {
+                      _showSpinner = false;
+                    });
+                    _buttonDisabled = true;
+                  }
+                },
+              ),
+            ],
           ),
         ),
       ),
