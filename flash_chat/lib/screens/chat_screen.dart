@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash_chat/Utilities/constants.dart';
+import 'package:flash_chat/Utilities/messageStream.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -15,11 +18,20 @@ class _ChatScreenState extends State<ChatScreen> {
   final _firestore = Firestore.instance;
   FirebaseUser loggedInUser;
   String messageText;
+  bool empty = true;
+
+  //TODO: if same sender, don't add top Email
+  String prevSender = '';
+
+  //this will be used to clear the fields when done
+  final messageTextController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     getUser();
+    getEmpty();
+    print('empty : ' + empty.toString());
   }
 
   void getUser() async {
@@ -34,10 +46,24 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  Future<void> getEmpty() async {
+    final messages = await _firestore.collection('messages').getDocuments();
+    //to get all documents (all items in the collection), use messages.documents and this gives a list of documents (items)
+    print('length : ' + messages.documents.length.toString());
+    if (messages.documents.length > 0)
+      setState(() {
+        empty = false;
+      });
+    else
+      setState(() {
+        empty = true;
+      });
+    print('empty : ' + empty.toString());
+  }
+
   //this has to be triggered
   void getMessages() async {
     final messages = await _firestore.collection('messages').getDocuments();
-
     //to get all documents (all items in the collection), use messages.documents and this gives a list of documents (items)
     for (var message in messages.documents) {
       print(message.data);
@@ -45,6 +71,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   //this is pushed automatically when a change happens in that collection
+  //like a subscription to the collection 'messages'
   void messageStream() async {
     //snapshots return sort of a list of futures (earlier one getDocuments accounted to one future)
     //basically multiple images of our collection
@@ -57,6 +84,23 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
+  Widget getInitialTextWidget() {
+    if (empty) {
+      return Text(
+        'Send your first message',
+        style: TextStyle(
+          fontSize: 25.0,
+          color: Colors.grey,
+        ),
+      );
+    } else {
+      return Container(
+        height: 0,
+        width: 0,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,9 +110,8 @@ class _ChatScreenState extends State<ChatScreen> {
           IconButton(
               icon: Icon(Icons.close),
               onPressed: () {
-//                _auth.signOut();
-//                Navigator.pop(context);
-                messageStream();
+                _auth.signOut();
+                Navigator.pop(context);
               }),
         ],
         title: Text('⚡️Chat'),
@@ -79,6 +122,8 @@ class _ChatScreenState extends State<ChatScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            getInitialTextWidget(),
+            MessageStream(firestore: _firestore),
             Container(
               decoration: kMessageContainerDecoration,
               child: Row(
@@ -86,6 +131,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
+                      controller: messageTextController,
                       onChanged: (value) {
                         messageText = value;
                       },
@@ -94,6 +140,12 @@ class _ChatScreenState extends State<ChatScreen> {
                   ),
                   FlatButton(
                     onPressed: () {
+                      if (empty == true) {
+                        setState(() {
+                          empty = false;
+                        });
+                      }
+                      messageTextController.clear();
                       //Implement send functionality.
                       _firestore.collection('messages').add({
                         'text': messageText,
