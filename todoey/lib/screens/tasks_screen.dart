@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:todoey/screens/add_task_screen.dart';
+import 'package:todoey/widgets/curvedContainer.dart';
 import 'package:todoey/widgets/tasksList.dart';
 
 class TasksScreen extends StatelessWidget {
-  Widget buildBottomSheet(BuildContext context) {
-    return Container();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showModalBottomSheet(context: context, builder: buildBottomSheet);
+          showModalBottomSheet(
+            context: context,
+            builder: (context) => AddTaskScreen(),
+            backgroundColor: Colors.transparent,
+          );
         },
         backgroundColor: Colors.lightBlueAccent,
         child: Icon(
@@ -66,15 +68,7 @@ class TasksScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(28.0),
-                      topRight: Radius.circular(28.0)),
-                  color: Colors.white,
-                ),
-                child: TasksList(),
-              ),
+              child: CurvedContainer(child: TasksList()),
             ),
           ],
         ),
