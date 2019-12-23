@@ -1,46 +1,55 @@
 import 'package:flutter/material.dart';
 
-class TaskTile extends StatelessWidget {
+class TaskTile extends StatefulWidget {
+  //its only task is to use State (which can be changed) to create the stFul widget
+
+  @override
+  _TaskTileState createState() => _TaskTileState();
+}
+
+//this state is what actually changes, hence we use the setState function
+class _TaskTileState extends State<TaskTile> {
+  bool isChecked = false;
+  void toggleCheckBox(bool checkBoxState) {
+    setState(() {
+      isChecked = checkBoxState;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text('This is a task'),
-          TaskCheckBox(),
-        ],
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          isChecked = !isChecked;
+        });
+      },
+      child: ListTile(
+        trailing: TaskCheckBox(
+          isChecked: isChecked,
+          onChanged: toggleCheckBox,
+        ),
+        title: Text(
+          'This is a task',
+          style: TextStyle(
+              decoration:
+                  isChecked ? TextDecoration.lineThrough : TextDecoration.none),
+        ),
       ),
     );
   }
 }
 
-class TaskCheckBox extends StatefulWidget {
-  const TaskCheckBox({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  _TaskCheckBoxState createState() => _TaskCheckBoxState();
-}
-
-class _TaskCheckBoxState extends State<TaskCheckBox> {
-  bool isChecked = false;
-  //this will act as a local variable for each checkbox
-  //Note that this is a local value, so if i have to know status of checkbox, for example to strikeThrough the to-Do, then need it at a higher level
-  //consider the note below
-
+class TaskCheckBox extends StatelessWidget {
+  final bool isChecked;
+  final Function onChanged;
+  TaskCheckBox({@required this.isChecked, @required this.onChanged});
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       child: Checkbox(
         value: isChecked,
-        onChanged: (value) {
-          setState(() {
-            isChecked = value;
-          });
-        },
+        onChanged: onChanged,
         activeColor: Colors.lightBlueAccent,
       ),
       height: 24.0,
