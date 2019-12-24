@@ -5,17 +5,20 @@ class TaskTile extends StatelessWidget {
   final String taskTitle;
   final Function onCheckBoxChanged;
   final Function onTap;
+  final Function onLongPress;
 
   TaskTile(
       {@required this.taskTitle,
       this.isChecked,
       this.onCheckBoxChanged,
-      this.onTap});
+      this.onTap,
+      this.onLongPress});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: this.onTap,
+      onLongPress: this.onLongPress,
       child: ListTile(
         trailing: SizedBox(
           child: Checkbox(

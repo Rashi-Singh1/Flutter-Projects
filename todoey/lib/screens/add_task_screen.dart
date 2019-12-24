@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey/models/task_data.dart';
 import 'package:todoey/widgets/curvedContainer.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  final Function onTap;
-  final Function onTextFieldChange;
-  AddTaskScreen({@required this.onTap, @required this.onTextFieldChange});
-
   @override
   Widget build(BuildContext context) {
+    String value;
+
     return CurvedContainer(
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -25,11 +25,14 @@ class AddTaskScreen extends StatelessWidget {
                 Expanded(
                   child: TextField(
                     autofocus: true,
-                    onChanged: onTextFieldChange,
+                    onChanged: (newValue) => value = newValue,
                   ),
                 ),
                 GestureDetector(
-                  onTap: this.onTap,
+                  onTap: () {
+                    Provider.of<TaskData>(context).addTask(value);
+                    Navigator.pop(context);
+                  },
                   child: Padding(
                     padding: EdgeInsets.only(
                         left: 8.0, right: 0.0, top: 8.0, bottom: 3.0),
