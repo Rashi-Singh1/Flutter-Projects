@@ -10,6 +10,8 @@ class TaskTile extends StatefulWidget {
 //this state is what actually changes, hence we use the setState function
 class _TaskTileState extends State<TaskTile> {
   bool isChecked = false;
+
+  //To pass any change from child to higher up in the widget tree, callbacks are used
   void toggleCheckBox(bool checkBoxState) {
     setState(() {
       isChecked = checkBoxState;
