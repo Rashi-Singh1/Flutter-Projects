@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:todoey/models/task.dart';
 import 'package:todoey/screens/add_task_screen.dart';
 import 'package:todoey/widgets/curvedContainer.dart';
+import 'package:todoey/widgets/taskTile.dart';
 import 'package:todoey/widgets/tasksList.dart';
 
-class TasksScreen extends StatelessWidget {
+class TasksScreen extends StatefulWidget {
+  @override
+  _TasksScreenState createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
+  List<Task> tasks = [
+    Task(name: 'Buy milk'),
+    Task(name: 'Buy eggs'),
+    Task(name: 'Buy bread'),
+  ];
+
+  String newTask;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +27,19 @@ class TasksScreen extends StatelessWidget {
         onPressed: () {
           showModalBottomSheet(
             context: context,
-            builder: (context) => AddTaskScreen(),
+            builder: (context) => AddTaskScreen(
+              onTap: () {
+                setState(() {
+                  tasks.add(
+                    Task(
+                      name: newTask,
+                    ),
+                  );
+                  print(tasks.length);
+                });
+              },
+              onTextFieldChange: (value) => newTask = value,
+            ),
             backgroundColor: Colors.transparent,
           );
         },
@@ -58,7 +85,7 @@ class TasksScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    '12 Tasks',
+                    tasks.length.toString() + ' Tasks',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18.0,
@@ -68,7 +95,27 @@ class TasksScreen extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: CurvedContainer(child: TasksList()),
+              child: CurvedContainer(
+                child: TasksList(
+                  builder: (context, index) {
+                    return TaskTile(
+                      taskTitle: tasks[index].name,
+                      isChecked: tasks[index].isDone,
+                      onCheckBoxChanged: (checkBoxState) {
+                        setState(() {
+                          tasks[index].toggleDone();
+                        });
+                      },
+                      onTap: () {
+                        setState(() {
+                          tasks[index].toggleDone();
+                        });
+                      },
+                    );
+                  },
+                  length: tasks.length,
+                ),
+              ),
             ),
           ],
         ),
