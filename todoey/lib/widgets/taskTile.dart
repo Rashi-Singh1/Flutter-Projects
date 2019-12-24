@@ -1,61 +1,46 @@
 import 'package:flutter/material.dart';
 
-class TaskTile extends StatefulWidget {
-  //its only task is to use State (which can be changed) to create the stFul widget
+class TaskTile extends StatelessWidget {
+  final bool isChecked;
+  final String taskTitle;
 
-  @override
-  _TaskTileState createState() => _TaskTileState();
-}
-
-//this state is what actually changes, hence we use the setState function
-class _TaskTileState extends State<TaskTile> {
-  bool isChecked = false;
+  TaskTile({@required this.taskTitle, this.isChecked});
 
   //To pass any change from child to higher up in the widget tree, callbacks are used
   void toggleCheckBox(bool checkBoxState) {
-    setState(() {
-      isChecked = checkBoxState;
-    });
+//    setState(() {
+//      isChecked = checkBoxState;
+//    });
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          isChecked = !isChecked;
-        });
-      },
+//      onTap: () {
+//        setState(() {
+//          isChecked = !isChecked;
+//        });
+//      },
       child: ListTile(
-        trailing: TaskCheckBox(
-          isChecked: isChecked,
-          onChanged: toggleCheckBox,
+        trailing: SizedBox(
+          child: Checkbox(
+            //re-positioned it here, now that both are stateless widgets, it does not make sense to separate this
+            //earlier our TaskTile was stFul and checkBox stLess
+            //as change happened for the complete tile
+            value: isChecked,
+            onChanged: null,
+            activeColor: Colors.lightBlueAccent,
+          ),
+          height: 24.0,
+          width: 24.0,
         ),
         title: Text(
-          'This is a task',
+          this.taskTitle,
           style: TextStyle(
               decoration:
                   isChecked ? TextDecoration.lineThrough : TextDecoration.none),
         ),
       ),
-    );
-  }
-}
-
-class TaskCheckBox extends StatelessWidget {
-  final bool isChecked;
-  final Function onChanged;
-  TaskCheckBox({@required this.isChecked, @required this.onChanged});
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      child: Checkbox(
-        value: isChecked,
-        onChanged: onChanged,
-        activeColor: Colors.lightBlueAccent,
-      ),
-      height: 24.0,
-      width: 24.0,
     );
   }
 }
